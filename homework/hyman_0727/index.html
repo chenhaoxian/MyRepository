@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<style type="text/css">
+body{ margin:0; padding:0;}
+.Header{ height:100px; }
+.Left{ float:left; width:200px; height:300px; }
+.Right{ float:right; width:300px; height:300px; }
+.Center{ margin:0 200px; height:300px; }
+.Content{ min-width:700px;_width:expression((document.documentElement.clientWidth||document.body.clientWidth)>800?"800px":"");}
+</style>
+</head>
+<body>
+<div class="Header">test</div>
+
+<div class="Content">
+
+<div class="Right">
+ <h1> 购物车</h1>
+ <table>
+  <th> </th><th>品名</th><th>增加</th><th>数量</th><th>减少</th><th>价格</th><th>小计</th>
+ 	<tbody id="shoppingcart_table_data"></tbody>
+ 	<tfoot id="shoppingcart_table_foot"></tfoot>
+
+ </table>
+
+</div>
+
+<div class="Left">
+	<button id="btn_breakfast" onclick="findFood('早餐')">早餐</button><br><br><br>
+	<button id="btn_midfood" onclick="findFood('午餐')">中餐</button><br><br><br>
+	<button id="btn_dinner" onclick="findFood('晚餐')">晚餐</button><br><br><br>
+</div>
+
+<div class="Center" >
+	<table id="food_table">
+		<tbody id="food_table_data"></tbody>
+
+	</table>
+</div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+var count = 0;
+var shoppingcart = document.getElementById("shoppingcart_table_data");
+var shoppingcart_foot = document.getElementById("shoppingcart_table_foot");
+
+
+
+window.onload=function(){
+	
+}
+
+function FoodFather(fId,fName,fPrice,fNum){
+	this.fId = fId;
+	this.fName = fName;
+	this.fPrice = fPrice;
+	this.fNum = fNum;
+}
+
+var foodFatherPrototype = {
+	constructor:FoodFather,
+	addFood:function(){
+		this.fNum++;
+	},
+	cutFood:function(){
+		this.fNum--;
+	}
+}
+
+FoodFather.prototype = foodFatherPrototype;
+
+function FoodSon(fId,fName,fPrice,fNum,fType){
+	FoodFather.call(this,fId,fName,fPrice,fNum);
+	this.fType = fType;
+}
+
+var foodFather = new FoodFather();
+
+FoodSon.prototype = foodFather;
+
+var breakfast1 = new FoodSon(1,"商品1",1,0,"早餐");
+var breakfast2 = new FoodSon(2,"商品2",2,0,"早餐");
+var breakfast3 = new FoodSon(3,"商品3",3,0,"午餐");
+var midfood1 = new FoodSon(4,"商品4",4,0,"午餐");
+var midfood2 = new FoodSon(5,"商品5",5,0,"午餐");
+var midfood3 = new FoodSon(6,"商品6",6,0,"午餐");
+var dinner1 = new FoodSon(7,"商品7",7,0,"晚餐");
+var dinner2 = new FoodSon(8,"商品8",8,0,"晚餐");
+var dinner3 = new FoodSon(9,"商品9",9,0,"晚餐");
+var dinner4 = new FoodSon(10,"商品10",10,0,"晚餐");
+var foodList = [breakfast1,breakfast2,breakfast3,midfood1,midfood2,midfood3,dinner1,dinner2,dinner3,dinner4];
+
+// var shoppingcart = new Map();
+
+function findFood(fName){
+	removeAllTableData("food_table_data");
+	var showFoodList = [];
+	for(var i=0; i<foodList.length; i++){
+		if(fName == foodList[i].fType){
+			showFoodList.push(foodList[i]);
+		}
+	}
+	var tbody = document.getElementById("food_table_data");
+
+	for(var j=0; j<showFoodList.length; j++){
+		var tr = document.createElement("tr");
+		var td1 = document.createElement("td");
+		var td2 = document.createElement("td");
+		var img1 = document.createElement("img");
+		var img2 = document.createElement("img");
+		var div1 = document.createElement("div");
+		var div2 = document.createElement("div");
+		var button1 = document.createElement("button");
+		var button2 = document.createElement("button");
+		button1.name =  showFoodList[j].fName;  
+		button1.onclick=function (){ 
+            buyFood(this.name); 
+		};
+		div1.innerHTML="<br>"+showFoodList[j].fName+"<br>"+showFoodList[j].fPrice;
+		img1.src = "images/"+showFoodList[j++].fName+".png";
+		img2.src = "images/"+showFoodList[j].fName+".png";
+		div2.innerHTML="<br>"+showFoodList[j].fName+"<br>"+showFoodList[j].fPrice;
+		button2.name =  showFoodList[j].fName;  
+		button2.onclick=function (){ 
+            buyFood(this.name); 
+		};
+		button1.innerHTML="购买";
+		button2.innerHTML="购买";
+		td1.appendChild(img1);
+		td1.appendChild(div1);
+		td1.appendChild(button1);
+		td2.appendChild(img2);
+		td2.appendChild(div2);
+		td2.appendChild(button2);
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tbody.appendChild(tr);
+	}
+}
+
+function buyFood(fName){
+	removeAllTableData("shoppingcart_table_data");
+	for(var i=0; i<foodList.length; i++){
+		if(foodList[i].fName == fName){
+			var temp = foodList[i].fNum;
+			foodList[i].addFood();
+			count = count+foodList[i].fPrice;
+			shoppingcartMap.put(foodList[i].fName,foodList[i]);
+			break;
+		}
+	}
+	shoppingcartMap.eachMap(show);
+	shoppingcart_foot.innerHTML="总计："+count+"元";
+
+}
+
+function addNum(fName){
+	shoppingcartMap.get(fName).addFood();
+	removeAllTableData("shoppingcart_table_data");
+	count = count+shoppingcartMap.get(fName).fPrice;
+	shoppingcartMap.eachMap(show);
+	shoppingcart_foot.innerHTML="总计："+count+"元";
+}
+
+function cutNum(fName){
+	shoppingcartMap.get(fName).cutFood();
+	removeAllTableData("shoppingcart_table_data");
+	count = count-shoppingcartMap.get(fName).fPrice;
+	if(shoppingcartMap.get(fName).fNum == 0){
+		shoppingcartMap.remove(fName);
+	}
+	shoppingcartMap.eachMap(show);
+	shoppingcart_foot.innerHTML="总计："+count+"元";
+}
+
+function show(key,value){
+	var tr = document.createElement("tr");
+	var td_id = document.createElement("td");
+	var td_fName = document.createElement("td");
+	var td_add = document.createElement("button");
+	var td_fNum = document.createElement("td");
+	var td_cut = document.createElement("button");
+	var td_fPrice = document.createElement("td");
+	var td_fCount = document.createElement("td");
+	td_id.id=value.fId;
+	td_id.innerHTML=">";
+	td_fName.innerHTML=value.fName;
+	td_fPrice.innerHTML=value.fPrice;
+	td_fNum.innerHTML=value.fNum;
+	td_fCount.innerHTML=value.fPrice*value.fNum+"";
+	td_add.name=value.fName;
+	td_add.innerHTML="添加";
+	td_add.onclick=function (){ 
+        addNum(this.name); 
+	};
+	td_cut.name=value.fName;
+	td_cut.innerHTML="减少";
+	td_cut.onclick=function (){ 
+        cutNum(this.name); 
+	};
+	tr.appendChild(td_id);
+	tr.appendChild(td_fName);
+	tr.appendChild(td_cut);
+	tr.appendChild(td_fNum);
+	tr.appendChild(td_add);
+	tr.appendChild(td_fPrice);
+	tr.appendChild(td_fCount);
+	shoppingcart.appendChild(tr);
+}
+
+
+function removeAllTableData(id){
+	var tbody = document.getElementById(id);
+	var tableLength = tbody.rows.length;
+    for(var i = 0;i < tableLength;i++) {
+        tbody.deleteRow(i);
+         tableLength=tableLength-1;
+         i=i-1;
+    }
+}
+
+
+function Map(){
+	this.obj = {};
+}
+
+Map.prototype = {
+	constructor:Map,
+	put:function(key,value){
+		this.obj[key] = value;
+	},
+	remove: function(key){
+		for(attr in this.obj){
+			if(attr == key){
+				delete this.obj[key];
+			}
+		}
+	},
+	size:function(){
+		var c = 0;
+		for(attr in this.obj){
+			c++;
+		}
+		return c;
+	},
+	get:function(key){
+		if(this.obj[key] || this.obj[key]==0 ||this.obj[key]==false){
+			return this.obj[key];
+		}else {
+			return null;
+		}
+	},
+	eachMap:function(fn){
+		for(attr in this.obj){
+			fn(attr,this.obj[attr]);
+		}
+	}
+}
+
+var shoppingcartMap = new Map();
+
+
+
+</script>
+</body>
+</html>

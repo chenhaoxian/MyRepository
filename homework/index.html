@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<style type="text/css">
+body{ margin:0; padding:0;}
+.Header{ height:100px; }
+.Left{ float:left; width:200px; height:300px; }
+.Right{ float:right; width:300px; height:300px; }
+.Center{ margin:0 200px; height:300px; }
+.Content{ min-width:700px;_width:expression((document.documentElement.clientWidth||document.body.clientWidth)>800?"800px":"");}
+</style>
+</head>
+<body>
+<div class="Header">test</div>
+
+<div class="Content">
+
+<div class="Right">
+ <h1> 购物车</h1>
+ <table>
+  <th> </th><th>品名</th><th>增加</th><th>数量</th><th>减少</th><th>价格</th><th>小计</th>
+ 	<tbody id="shoppingcart_table_data"></tbody>
+ 	<tfoot id="shoppingcart_table_foot"></tfoot>
+
+ </table>
+
+</div>
+
+<div class="Left">
+	<button id="btn_breakfast" onclick="findFood()">早餐</button><br><br><br>
+	<button id="btn_midfood" onclick="findFood()">中餐</button><br><br><br>
+	<button id="btn_dinner" onclick="findFood()">晚餐</button><br><br><br>
+</div>
+
+<div class="Center" >
+	<table id="food_table">
+
+		<tbody id="food_table_data"></tbody>
+
+		
+
+	</table>
+</div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+var images = ["商品1","商品2","商品3","商品4","商品5","商品6","商品7","商品8","商品9","商品10"];
+
+function Food(fId,fName,fPrice,fNum){
+	this.fId = fId;
+	this.fName = fName;
+	this.fPrice = fPrice;
+	this.fNum = fNum;
+}
+
+var food1 = new Food(1,"商品1",1,0);
+var food2 = new Food(2,"商品2",2,0);
+var food3 = new Food(3,"商品3",3,0);
+var food4 = new Food(4,"商品4",4,0);
+var food5 = new Food(5,"商品5",5,0);
+var food6 = new Food(6,"商品6",6,0);
+var food7 = new Food(7,"商品7",7,0);
+var food8 = new Food(8,"商品8",8,0);
+var food9 = new Food(9,"商品9",9,0);
+var food10 = new Food(10,"商品10",10,0);
+var foodList = [food1,food2,food3,food4,food5,food6,food7,food8,food9,food10];
+
+var count = 0;
+var shoppingcart = document.getElementById("shoppingcart_table_data");
+var shoppingcart_foot = document.getElementById("shoppingcart_table_foot");
+window.onload=function(){
+	
+}
+
+function removeAllTableData(){
+	var tbody = document.getElementById("food_table_data");
+	var tableLength = tbody.rows.length;
+    for(var i = 0;i < tableLength;i++) {
+        tbody.deleteRow(i);
+         tableLength=tableLength-1;
+         i=i-1;
+    }
+}
+
+
+function addNum(data){
+	for(var i=0; i<foodList.length; i++){
+		if(foodList[i].fName == data){
+			foodList[i].fNum = foodList[i].fNum+1;
+			count = count + foodList[i].fPrice;
+			var temp_tr = document.getElementById(foodList[i].fId).parentNode.getElementsByTagName("td");
+			temp_tr[2].innerHTML=foodList[i].fNum;
+			temp_tr[4].innerHTML=foodList[i].fPrice*foodList[i].fNum;
+			shoppingcart_foot.innerHTML="总计："+count+"元";
+		}
+	}
+}
+
+function cutNum(data){
+	for(var i=0; i<foodList.length; i++){
+		if(foodList[i].fName == data){
+			foodList[i].fNum = foodList[i].fNum-1;
+			count = count - foodList[i].fPrice;
+			var temp_tr = document.getElementById(foodList[i].fId).parentNode.getElementsByTagName("td");
+			if(foodList[i].fNum == 0){
+				var tr_delete = document.getElementById(foodList[i].fId).parentNode;
+				tr_delete.parentNode.removeChild(tr_delete);
+			}else{
+				temp_tr[2].innerHTML=foodList[i].fNum;
+				temp_tr[4].innerHTML=foodList[i].fPrice*foodList[i].fNum;
+				
+			}
+			shoppingcart_foot.innerHTML="总计："+count+"元";
+		}
+	}
+}
+
+function buyFood(data){
+	for(var i=0; i<foodList.length; i++){
+		if(foodList[i].fName == data){
+			var temp = foodList[i].fNum;
+			foodList[i].fNum = foodList[i].fNum+1;
+			count = count+foodList[i].fPrice;
+			if(temp == 0){
+				var tr = document.createElement("tr");
+				var td_id = document.createElement("td");
+				var td_fName = document.createElement("td");
+				var td_add = document.createElement("button");
+				var td_fNum = document.createElement("td");
+				var td_cut = document.createElement("button");
+				var td_fPrice = document.createElement("td");
+				var td_fCount = document.createElement("td");
+				td_id.id=foodList[i].fId;
+				td_id.innerHTML=">";
+				td_fName.innerHTML=foodList[i].fName;
+				td_fPrice.innerHTML=foodList[i].fPrice;
+				td_fNum.innerHTML=foodList[i].fNum;
+				td_fCount.innerHTML=foodList[i].fPrice*foodList[i].fNum+"";
+				td_add.name=foodList[i].fName;
+				td_add.innerHTML="添加";
+				td_add.onclick=function (){ 
+		            addNum(this.name); 
+				};
+				td_cut.name=foodList[i].fName;
+				td_cut.innerHTML="减少";
+				td_cut.onclick=function (){ 
+		            cutNum(this.name); 
+				};
+				tr.appendChild(td_id);
+				tr.appendChild(td_fName);
+				tr.appendChild(td_cut);
+				tr.appendChild(td_fNum);
+				tr.appendChild(td_add);
+				tr.appendChild(td_fPrice);
+				tr.appendChild(td_fCount);
+				shoppingcart.appendChild(tr);
+			}else{
+				// alert(document.getElementById(foodList[i].fId).parentNode.getElementsByTagName("td").length);
+				var temp_tr = document.getElementById(foodList[i].fId).parentNode.getElementsByTagName("td");
+				temp_tr[2].innerHTML=foodList[i].fNum;
+				temp_tr[4].innerHTML=foodList[i].fPrice*foodList[i].fNum;
+			}
+		}
+
+	}
+	shoppingcart_foot.innerHTML="总计："+count+"元";
+
+}
+
+
+function findFood(){
+	// var tbody = document.getElementById("food_table_data");
+	removeAllTableData();
+	var randoms = getRandoms();
+	var showImages = [];
+	for(var i=0; i<randoms.length; i++){
+		showImages.push(images[randoms[i]]);
+	}
+	var tbody = document.getElementById("food_table_data");
+	for(var j=0; j<showImages.length; j++){
+		var tr = document.createElement("tr");
+		var td1 = document.createElement("td");
+		var td2 = document.createElement("td");
+		var img1 = document.createElement("img");
+		var img2 = document.createElement("img");
+		var div1 = document.createElement("div");
+		var div2 = document.createElement("div");
+		var button1 = document.createElement("button");
+		var button2 = document.createElement("button");
+		button1.name =  showImages[j];  
+		button1.onclick=function (){ 
+            buyFood(this.name); 
+		};
+		div1.innerHTML="<br>"+showImages[j];
+		img1.src = "images/"+showImages[j++]+".png";
+		img2.src = "images/"+showImages[j]+".png";
+		div2.innerHTML="<br>"+showImages[j];
+		button2.name =  showImages[j];  
+		button2.onclick=function (){ 
+            buyFood(this.name); 
+		};
+
+		button1.innerHTML="购买";
+		button2.innerHTML="购买";
+		td1.appendChild(img1);
+		td1.appendChild(div1);
+		td1.appendChild(button1);
+		td2.appendChild(img2);
+		td2.appendChild(div2);
+		td2.appendChild(button2);
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tbody.appendChild(tr);
+	}
+
+
+}
+
+function getRandoms(){
+	var randoms = [];
+	var index1 = Math.ceil(Math.random()*10-1);
+	randoms.push(index1);
+	for(var i=0;i<5;i++){
+		var index2 = Math.ceil(Math.random()*10-1);
+		
+		while(checkContain(randoms,index2)){
+			index2 = Math.ceil(Math.random()*10-1);
+		}
+		randoms.push(index2);
+
+	} 
+	return randoms;
+}
+
+function checkContain(arr,item){
+	for(var i=0; i<arr.length; i++){
+		if(item == arr[i]){
+			return true;
+		}
+	}
+	return false;
+}	
+
+// window.onload=function(){
+// 	var btn_click=document.getElementById("btn_breakfast");
+// 	btn_click.onclick = findFood;
+// }
+
+</script>
+</body>
+</html>
