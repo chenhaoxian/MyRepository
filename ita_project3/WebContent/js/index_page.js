@@ -1,8 +1,9 @@
 function Index() {
-
 }
 var Index_Page = new Index();
+
 var data = [];
+
 Index.prototype.init = function() {
 	var self = this;
 	var xhr = CreateXmlHttp();
@@ -23,7 +24,10 @@ Index.prototype.init = function() {
 				var td_buy = document.createElement("button");
 				var img_food = document.createElement("img");
 				td_buy.id = item.fId;
-				td_buy.innerHTML = "购买"
+				td_buy.innerHTML = "购买";
+				td_buy.onclick=function (){ 
+					Index_Page.buyFood(this.id); 
+				};
 				img_food.src = item.fImagePath;
 				td_fName.innerHTML = item.fName;
 				td_fPrice.innerHTML = item.fPrice;
@@ -34,13 +38,27 @@ Index.prototype.init = function() {
 				tr.appendChild(td_buy);
 				food_tbody.appendChild(tr);
 			});
-
 		}
-		
 	}
 }
 
-
+Index.prototype.buyFood = function(fId){
+	var xhr = CreateXmlHttp();
+	xhr.open("POST", "buyFoodServlet?fId="+fId, true);
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.send(null);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var cart_tbody = document.getElementById("shoppingcart_table_data");
+			var result = xhr.responseText;
+			if(result == "fail"){
+				alert("请先登录！");
+			}else{
+				//data = JSON.parse(result);
+			}
+		}
+	}
+}
 
 Index.prototype.bindEvent = function() {
 	var self = this;

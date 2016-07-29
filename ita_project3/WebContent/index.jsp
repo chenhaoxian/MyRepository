@@ -19,25 +19,26 @@ body {
 
 .Left {
 	float: left;
-	width: 200px;
+	width: 50px;
 	height: 300px;
 }
 
 .Right {
 	float: right;
-	width: 300px;
+	width: 450px;
 	height: 300px;
 }
 
 .Center {
 	margin: 0 200px;
+	width: 500px;
 	height: 300px;
 }
 
 .Content {
 	min-width: 700px;
 	_width: expression(( document.documentElement.clientWidth ||
-		document.body.clientWidth)>800?"800px":"");
+		document.body.clientWidth)>1000?"1000px":"");
 }
 </style>
 </head>
@@ -50,26 +51,16 @@ body {
 		<div class="Right">
 			<h1>购物车</h1>
 			<table>
-				<th></th>
-				<th>品名</th>
-				<th>增加</th>
-				<th>数量</th>
-				<th>减少</th>
-				<th>价格</th>
-				<th>小计</th>
+				<th>品名</th><th>减少</th><th>数量</th><th>增加</th><th>价格</th><th>小计</th>
 				<tbody id="shoppingcart_table_data"></tbody>
+				
 				<tfoot id="shoppingcart_table_foot"></tfoot>
-
 			</table>
-
 		</div>
-
 
 		<div class="Center">
 			<table id="food_table">
-				<tbody id="food_table_data">
-					
-				</tbody>
+				<tbody id="food_table_data"></tbody>
 			</table>
 		</div>
 

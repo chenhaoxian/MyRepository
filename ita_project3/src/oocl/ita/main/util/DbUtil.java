@@ -28,9 +28,7 @@ public class DbUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return con;
-
 	}
 
 	public static void free(Connection con, PreparedStatement pst, ResultSet rs) {

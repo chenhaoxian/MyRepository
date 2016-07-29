@@ -19,4 +19,14 @@
     <servlet-name>SearchFoodServlet</servlet-name>
     <url-pattern>/searchFoodServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BuyFoodServlet</display-name>
+    <servlet-name>BuyFoodServlet</servlet-name>
+    <servlet-class>oocl.ita.main.controller.BuyFoodServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BuyFoodServlet</servlet-name>
+    <url-pattern>/buyFoodServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
