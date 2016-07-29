@@ -28,6 +28,10 @@ public class Food {
 		this.fImagePath = fImagePath;
 	}
 
+	
+	public int getfPrice() {
+		return fPrice;
+	}
 	@Override
 	public String toString() {
 		return "Food [fId=" + fId + ", fName=" + fName + ", fImagePath=" + fImagePath + ", fPrice=" + fPrice + "]";

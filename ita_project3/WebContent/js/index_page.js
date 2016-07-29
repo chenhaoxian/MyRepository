@@ -11,14 +11,30 @@ Index.prototype.init = function() {
 	xhr.send(null);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
+			var food_tbody = document.getElementById("food_table_data");
 			var result = xhr.responseText;
 			data = JSON.parse(result);
-//			data.forEach(function(item){
-//				alert(item.fName);
-//			});
-			for(var item in data){
-				alert(item+'...'+data[item].fName);
-			}
+			data.forEach(function(item){
+				var tr = document.createElement("tr");
+				tr.id = item.fId;
+				var td_img = document.createElement("td");
+				var td_fName = document.createElement("td");
+				var td_fPrice = document.createElement("td");
+				var td_buy = document.createElement("button");
+				var img_food = document.createElement("img");
+				td_buy.id = item.fId;
+				td_buy.innerHTML = "购买"
+				img_food.src = item.fImagePath;
+				td_fName.innerHTML = item.fName;
+				td_fPrice.innerHTML = item.fPrice;
+				td_img.appendChild(img_food);
+				tr.appendChild(td_img);
+				tr.appendChild(td_fName);
+				tr.appendChild(td_fPrice);
+				tr.appendChild(td_buy);
+				food_tbody.appendChild(tr);
+			});
+
 		}
 		
 	}

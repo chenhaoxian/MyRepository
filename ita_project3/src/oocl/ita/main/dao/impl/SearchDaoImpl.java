@@ -63,11 +63,11 @@ public class SearchDaoImpl implements SearchDao {
 		ResultSet rs = null;
 		String sql = "select * from itaproject_food";
 		List<Food> list = new ArrayList<Food>();
-		Food food = new Food();
 		try {
 			pst = con.prepareStatement(sql);
 			rs = pst.executeQuery();
 			while(rs.next()){
+				Food food = new Food();
 				food.setfId(rs.getInt("fId"));
 				food.setfName(rs.getString("fName"));
 				food.setfImagePath(rs.getString("fimagepath"));

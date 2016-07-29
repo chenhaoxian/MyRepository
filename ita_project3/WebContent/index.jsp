@@ -67,11 +67,9 @@ body {
 
 		<div class="Center">
 			<table id="food_table">
-
-				<tbody id="food_table_data"></tbody>
-
-
-
+				<tbody id="food_table_data">
+					
+				</tbody>
 			</table>
 		</div>
 
