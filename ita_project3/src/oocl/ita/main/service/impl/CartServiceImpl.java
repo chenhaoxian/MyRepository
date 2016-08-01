@@ -20,4 +20,26 @@ public class CartServiceImpl implements CartService {
 		return 0;
 	}
 
+	@Override
+	public int save2Cart(int uId, int fId) {
+		if(cartDao.checkRecord(uId, fId) == 0){
+			return cartDao.insert2Cart(uId, fId);
+		}else{
+			return cartDao.updateCart(uId, fId);
+		}
+		
+	}
+
+	@Override
+	public int addFood(int uId, int fId) {
+		
+		return cartDao.updateCart(uId, fId);
+	}
+
+	@Override
+	public int cutFood(int uId, int fId) {
+		// TODO Auto-generated method stub
+		return cartDao.cutFood(uId, fId);
+	}
+
 }

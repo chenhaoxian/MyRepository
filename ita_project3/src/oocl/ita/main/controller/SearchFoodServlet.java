@@ -8,10 +8,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import oocl.ita.main.model.Food;
+import oocl.ita.main.model.ShoppingCart;
+import oocl.ita.main.model.User;
 import oocl.ita.main.service.SearchService;
 import oocl.ita.main.service.impl.SearchServiceImpl;
 
@@ -38,11 +41,22 @@ public class SearchFoodServlet extends HttpServlet {
 		List<Food> foodList = searchService.searchAllFood();
 		ObjectMapper mapper = new ObjectMapper();
 		String foodJson = mapper.writeValueAsString(foodList);
-		System.out.println(foodJson);
 		response.setContentType("text/xml;charset=utf-8");
 		response.setHeader("Cache-Control", "no-cache");
-		PrintWriter writer = response.getWriter();
-		writer.println(foodJson);
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		if(user != null){
+			List<ShoppingCart> shoppingCart = searchService.searchCart(user.getUserId());
+			String cartJson = mapper.writeValueAsString(shoppingCart);
+			String allJson = cartJson + "#" + foodJson;
+			PrintWriter writer = response.getWriter();
+			writer.println(allJson);
+		}else{
+			PrintWriter writer = response.getWriter();
+			writer.println(foodJson);
+		}
+
+		
 	}
 
 }

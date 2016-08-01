@@ -34,4 +34,94 @@ public class CartDaoImpl implements CartDao {
 		return count;
 	}
 
+
+	@Override
+	public int checkRecord(int uId, int fId) {
+		con = DbUtil.connect();
+		String sql = "select count(1) as count from itaproject_cart where userId = ? and fId = ?";
+		PreparedStatement pst = null;
+		int count = 0;
+		ResultSet rs = null;
+		try {
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, uId);
+			pst.setInt(2, fId);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				count = rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+
+
+	@Override
+	public int insert2Cart(int uId, int fId) {
+		con = DbUtil.connect();
+		String sql = "insert into itaproject_cart(cid,userid,fid,fNum) values(HYMAN_SEQ01.nextval,?,?,1)";
+		PreparedStatement pst = null;
+		int count = 0;
+		try {
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, uId);
+			pst.setInt(2, fId);
+			count = pst.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+
+	@Override
+	public int updateCart(int uId, int fId) {
+		con = DbUtil.connect();
+		String sql = "update itaproject_cart set fNum = fNum+1 where userId = ? and fId = ?";
+		PreparedStatement pst = null;
+		int count = 0;
+		try {
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, uId);
+			pst.setInt(2, fId);
+			count = pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+
+	@Override
+	public int addFood(int uId, int fId) {
+		con = DbUtil.connect();
+		String sql = "update itaproject_cart set fNum";
+		return 0;
+	}
+
+
+	@Override
+	public int cutFood(int uId, int fId) {
+		con = DbUtil.connect();
+		String sql = "update itaproject_cart set fNum = fNum-1 where userId = ? and fId = ?";
+		PreparedStatement pst = null;
+		int count = 0;
+		
+		try {
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, uId);
+			pst.setInt(2, fId);
+			count = pst.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+
 }

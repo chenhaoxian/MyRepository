@@ -9,6 +9,7 @@ import java.util.List;
 
 import oocl.ita.main.dao.SearchDao;
 import oocl.ita.main.model.Food;
+import oocl.ita.main.model.ShoppingCart;
 import oocl.ita.main.util.DbUtil;
 
 public class SearchDaoImpl implements SearchDao {
@@ -73,6 +74,71 @@ public class SearchDaoImpl implements SearchDao {
 				food.setfImagePath(rs.getString("fimagepath"));
 				food.setfPrice(rs.getInt("fPrice"));
 				list.add(food);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			DbUtil.free(con, pst, rs);
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<ShoppingCart> searchCart(int userId) {
+		Connection con = DbUtil.connect();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String sql = "select f.* ,c.*  from itaproject_cart c inner join itaproject_food f on c.fid = f.fid "
+				+ "inner join itaproject_user u on c.userId = u.userid  where u.userid = ? and c.fNum >0";
+		List<ShoppingCart> list = new ArrayList<ShoppingCart>();
+		try {
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, userId);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				ShoppingCart shoppingCart = new ShoppingCart();
+				shoppingCart.setfName(rs.getString("fName"));
+				shoppingCart.setfPrice(rs.getInt("fPrice"));
+				shoppingCart.setcId(rs.getInt("cId"));
+				shoppingCart.setuId(rs.getInt("userId"));
+				shoppingCart.setfId(rs.getInt("fId"));
+				shoppingCart.setfNum(rs.getInt("fNum"));
+				list.add(shoppingCart);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			DbUtil.free(con, pst, rs);
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<ShoppingCart> searchCart(int userId, int fId) {
+		Connection con = DbUtil.connect();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String sql = "select f.* ,c.*  from itaproject_cart c inner join itaproject_food f on c.fid = f.fid "
+				+ "inner join itaproject_user u on c.userId = u.userid  where u.userid = ? and f.fID = ? ";
+		List<ShoppingCart> list = new ArrayList<ShoppingCart>();
+		try {
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, userId);
+			pst.setInt(2, fId);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				ShoppingCart shoppingCart = new ShoppingCart();
+				shoppingCart.setfName(rs.getString("fName"));
+				shoppingCart.setfPrice(rs.getInt("fPrice"));
+				shoppingCart.setcId(rs.getInt("cId"));
+				shoppingCart.setuId(rs.getInt("userId"));
+				shoppingCart.setfId(rs.getInt("fId"));
+				shoppingCart.setfNum(rs.getInt("fNum"));
+				list.add(shoppingCart);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

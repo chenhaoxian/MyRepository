@@ -2,20 +2,27 @@ package oocl.ita.main.model;
 
 public class User {
 
-	private int uId;
-	private String uName;
+	private int userId;
+	private String username;
+	private String userEmail;
 	private String password;
-	public int getuId() {
-		return uId;
+	public int getUserId() {
+		return userId;
 	}
-	public void setuId(int uId) {
-		this.uId = uId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public String getuName() {
-		return uName;
+	public String getUsername() {
+		return username;
 	}
-	public void setuName(String uName) {
-		this.uName = uName;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 	public String getPassword() {
 		return password;
@@ -25,7 +32,10 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [uId=" + uId + ", uName=" + uName + ", password=" + password + "]";
+		return "User [userId=" + userId + ", username=" + username + ", userEmail=" + userEmail + ", password="
+				+ password + "]";
 	}
+	
+	
 	
 }
