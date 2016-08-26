@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body>
+
+<div class="wrap" ng-controller="showItem"><!-- ng-controller ng的语法 -->
+    <h5>商品列表</h5>
+    <div class="left itembox border" >
+        <ul>
+            <li class="left" ng-repeat="value in items" item-id={{value.id}}>
+                <p>{{value.name}}</p>
+                <p> {{value.price}}</p>
+                <p>
+                    　　　　　　　　　　　　<a href="javascript:void(0);" ng-click="buyAction($event);"
+                                   　　　　　　　　　　　　　　name={{value.name}} price={{value.price}} item-id={{value.id}} >购买</a>
+                    　　　　　　　　　　　　　　<!-- dom 事件时的$event 就相当于普通dom事件中的window.event 对象-->
+                    　　　　　　　　　　</p>
+            </li>
+        </ul>
+    </div>
+    　　　　
+    　　　　 <!-- 购物车中的数据 -->
+    <div class="boughtlist border">
+        <ul>
+            <li ng-repeat="value in boughtList" item-id={{value.id}}>
+                <span>{{value.name}}</span>
+                <span>{{value.price}}</span>
+                <span style="width:100px;" item-id={{value.id}}>
+                    <a href="javascript:void(0);" ng-click="value.num=value.num+1;changeNum($event,value.num);" >+</a>
+                    <input class="border" type="number" min=0 ng-model="value.num" ng-init="value.num=1" ng-change="changeNum(value.id,value.num);"/>
+　　　　　　　　　　　　<!-- 这里的ng-change 是值发生变化时触发的事件，其实这里我原先想处理成 一个自动的mvc过程，无果，只好加事件了-->
+　　　　　　　　　　　　<a href="javascript:void(0);" ng-click="value.num=value.num-1;changeNum($event,value.num);">-</a>
+                </span>
+                <a href="javascript:void(0);" item-id={{value.id}} ng-click="delItem($event);" >删除</a>
+            </li>
+        </ul>
+        <p ng-init=0 >总价格：{{ total | number:1}}</p>
+        　　　　 <!-- angular的优势体现，number：1也就是number数据，小数点后一位。-->
+    </div>
+
+
+    <script>
+        var items = [{
+            id : '1',
+            name : '蜂蜜',
+            price : 30.00
+        },{
+            id : '2',
+            name : '黄豆酱',
+            price : 15.8
+        },
+            {
+                id : '3',
+                name : '护手霜',
+                price : 15.00
+            },
+            {
+                id : '4',
+                name : '保温杯',
+                price : 29.9
+            },
+            {
+                id : '5',
+                name : '鼠标',
+                price : 39.9
+            },{
+                id : '6',
+                name : '米老头',
+                price : 8.8
+            }];
+        //购物车中的数据;
+        var boughtList = {};
+
+        var ng = angular;
+        var myapp = ng.module('myapp',[]);
+
+        var common = {
+            getTotal : function(total){ //每次重新清零 算出总价，这样的话为什么还要传total参数？当时怎么想的？
+                total = 0;
+                for(var k in boughtList){
+                    if(boughtList[k]){
+                        if(boughtList[k].num <=0){
+                            boughtList[k].num = 0;
+                        }
+                        total += boughtList[k].num*boughtList[k].price;
+                    }
+                }
+                return total;
+            }
+        }
+
+        myapp.controller('showItem',function($scope){
+            $scope.items = items;
+            $scope.boughtList = boughtList;
+            $scope.total = 0;
+            for(var k in boughtList){
+                if(boughtList[k]){
+                    $scope.total += boughtList[k].num*boughtList[k].price;
+                }
+            }
+            $scope.buyAction = function($event){
+                var el = $event.target;
+                var id = el.getAttribute('item-id');
+                if(boughtList[id]){
+                    boughtList[id].num += 1;
+                }else{
+                    var arr = [];
+                    arr.name = el.getAttribute('name');
+                    arr.price = el.getAttribute('price');
+                    arr.num = 1;
+                    arr.id = id;
+                    boughtList[id] = arr;
+                }
+                $scope.total = common.getTotal($scope.total);
+            }
+
+            $scope.delItem = function($event){
+                var li = $event.target.parentNode;
+                li.parentNode.removeChild(li);
+                var id = $event.target.getAttribute('item-id');
+                if(boughtList[id]){
+                    delete boughtList[id];
+                }
+                $scope.total = common.getTotal($scope.total);
+            }
+            $scope.changeNum = function($event,num){
+                var id;
+                if(typeof $event == 'string'){
+                    id = $event;
+                }else{
+                    id = $event.target.parentNode.getAttribute('item-id');
+                }
+
+                boughtList[id].number = num;
+                $scope.total = common.getTotal($scope.total);
+            }
+        });
+    </script>
+</body>
+</html>

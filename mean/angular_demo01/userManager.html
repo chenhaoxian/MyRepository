@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body ng-app="mainApp" ng-controller="UserController">
+
+<h1>UserList</h1>
+<ul>
+    <li ng-repeat="u in users">
+        <span>{{u.uname}}</span>
+        <span ng-bind="u.age"></span>
+        <span><button ng-click="edit($index)">edit</button></span>
+        <span><button ng-click="delete($index)">delete</button></span>
+    </li>
+
+</ul>
+<hr>
+<form >
+    <input type="text" ng-model="cu.uname">
+    <input type="text" ng-model="cu.age">
+    <button ng-click="confirm()">confirm</button>
+    <button ng-click="delete()">delete</button>
+</form>
+
+
+
+<script>
+    var utilApp = angular.module("utilApp",[]);
+//    utilApp.value("url","http://www.sss.com/aaa");
+//    utilApp.factory("ms",function () {
+//        var o = {};
+//        o.sum = function (a,b) {
+//            return a+b;
+//        }
+//        return o;
+//    })
+//
+//    utilApp.service("sms",function () {
+//        this.multi = function (a,b) {
+//            return a*b;
+//        }
+//    })
+
+    angular.module("mainApp",[])
+            .controller("UserController",function($scope,url){
+                var users = [
+                    {uname:"john",age:100},
+                    {uname:"tom",age:23},
+                    {uname:"hyman",age:44}
+                ];
+
+
+                $scope.users = users;
+
+                $scope.edit = function (index) {
+                    pointer = index;
+//                    $scope.cu = users[index];
+                    $scope.cu = angular.copy(users[index]);
+                }
+
+                $scope.confirm = function(){
+                    users[pointer] = angular.copy($scope.cu);
+                }
+
+                $scope.delete = function(index){
+//                    users[pointer] = angular.copy($scope.cu);
+//                    alert(users[pointer]);
+//                   angular.delete(users[pointer]);
+//                    users.delete(pointer);
+                    users.splice(index,1);
+                }
+
+            })
+</script>
+</body>
+</html>

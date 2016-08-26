@@ -19,11 +19,8 @@ function login_check(){
 					var result = xhr.responseText;
 					if(result == "success"){
 						alert("登录成功！");
+						//cookieUtil.set('user_cookies',"user_cookies",setCookieDate(1));
 						window.location.href="index.jsp";
-//						document.getElementById("div1").style.display = 'none';
-////						document.getElementById("btn_register").style.display = 'none';
-//						document.getElementById("div2").style.display = 'block';
-//						document.getElementById("btnclose").onclick();
 						
 					}else{
 						alert("登录失败！");

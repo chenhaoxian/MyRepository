@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body ng-app="mainApp">
+
+    <div ng-controller="MyController">
+        <input ng-model="uname"><br>
+        {{uname}}+{{group}}
+<hr>
+        <div ng-controller="YourController">
+            uname:{{uname}},{{group}}
+
+        </div>
+
+    </div>
+
+
+
+
+<script>
+
+    var main = angular.module("mainApp",[]);
+
+    main.controller("MyController",function($scope,$rootScope){
+//        alert(this.constructor);
+        $scope.uname="hyman";
+//        $rootScope.group = "china";
+        $scope.group = "china";
+    });
+
+    main.controller("YourController",function($scope){
+//        alert(this.constructor);
+        $scope.uname="vicky";
+    });
+
+
+
+//    function MyController($scope,$http) { //注入
+////        alert(this.constructor);
+//        $scope.uname="hyman";
+//    }
+//    function YourController($scope) {
+//        $scope.uname = "vicky";
+//    }
+
+
+</script>
+</body>
+</html>

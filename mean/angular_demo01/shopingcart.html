@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body ng-app="mainApp" ng-controller="CartController">
+<div >
+        <h1>Item List</h1>
+        <div ng-repeat="item in items">
+            <img src="">
+            <span ng-bind="item.name"></span>
+            <span ng-bind="item.price"></span>
+            <button ng-click="addToCart($index)">buy</button>
+        </div>
+    <hr>
+    <div>
+
+        <ul>
+
+            <li ng-repeat="c in cart">
+                <span ng-bind="c.item.name"></span>
+                <span ng-bind="c.item.price"></span>
+                <span ng-bind="c.count"></span>
+
+            </li>
+        </ul>
+    </div>
+    <h2>total:{{total}}</h2>
+</div>
+</body>
+<script>
+    angular.module("mainApp",[])
+            .controller("CartController",function ($scope) {
+                var t = -1;
+                var total = 0;
+                var items = [
+                    {name:"iPhone",price:35},
+                    {name:"iMac",price:100},
+                    {name:"iPad",price:65}
+                ];
+
+                $scope.items = items;
+                var cart = [];
+//                var cartItem={item:item,count:2}
+
+                $scope.cart = cart;
+
+                $scope.addToCart = function (index) {
+                    var exist = cart.some(function (o, inx, ary) {
+                        t = inx;
+                        return angular.equals(o.item,items[index]);
+                    });
+                    if(!exist){
+                        var cartItem = {item:items[index],count:1};
+                        cart.push(cartItem);
+                    }else{
+                        cart[t].count += 1;
+                    }
+                }
+
+                $scope.$watch("cart",function (n,o) {
+                    $scope.total = 0;
+                    cart.forEach(function (c) {
+                        $scope.total += c.item.price*c.count;
+                    })
+                },true);
+
+            });
+
+
+</script>
+</html>

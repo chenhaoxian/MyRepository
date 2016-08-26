@@ -2,8 +2,11 @@ function Index() {
 }
 var Index_Page = new Index();
 
-var data = [];
-var count = 0;
+window.onload=function(){
+	 Index_Page.init();
+	 Index_Page.bindEvent();
+}
+
 Index.prototype.init = function() {
 	var self = this;
 	var xhr = CreateXmlHttp();
@@ -21,14 +24,12 @@ Index.prototype.init = function() {
 			if(result.indexOf("#") != -1){
 				cart_data = result.split("#")[0];
 				food_data = result.split("#")[1];
-				
 				cart_json = JSON.parse(cart_data);
 			}else{
 				food_data = result;
 			}
 			var food_json = JSON.parse(food_data);
-			
-			//food_data = JSON.parse(result);
+			cookieUtil.set('food_data',food_data,setCookieDate(1));
 			food_json.forEach(function(item){
 				var tr = document.createElement("tr");
 				tr.id = "food_tr_"+item.fId;
@@ -152,7 +153,7 @@ Index.prototype.cutFood = function(value){
 				count = count - fPrice;
 				showCartFoot(count);
 			}else{
-				alert("添加失败");
+				alert("减少失败");
 			}
 		}
 	}
@@ -222,7 +223,6 @@ Index.prototype.buyFood = function(fId,fPrice){
 					});
 				}
 				showCartFoot(count);
-
 			}
 		}
 	}
@@ -232,12 +232,12 @@ Index.prototype.bindEvent = function() {
 	var self = this;
 }
 
+var data = [];
+var count = 0;
+var flag = false;
+//var sp = new SuggestPanel("food_table");
 
 
- window.onload=function(){
-	 Index_Page.init();
-	 Index_Page.bindEvent();
- }
 
 function CreateXmlHttp() {
 	var xhrobj = false;
@@ -294,3 +294,49 @@ function signOut(){
 		}
 	}
 }
+
+var cookieUtil={
+        set :function(name,value,expires,path,domain,secure){
+            var cookieText=encodeURIComponent(name)+'='+
+                        encodeURIComponent(value);
+            if(expires instanceof Date){
+                cookieText+=';expires='+expires.toGMTString();
+            }
+            if(path){
+                cookieText+=';path='+path;
+            }
+            if(domain){
+                cookieText+=';domain='+domain;
+            }
+            if(secure){
+                cookieText+=';secure';
+            }
+            document.cookie=cookieText;        
+        },
+        get:function(name){
+            var cookieName=encodeURIComponent(name)+'=',
+                cookieStart=document.cookie.indexOf(cookieName),
+                cookieValue=null;
+            if(cookieStart>-1){
+                var cookieEnd=document.cookie.indexOf(';',cookieStart);
+                if(cookieEnd==-1){
+                    cookieEnd=document.cookie.length;
+                }
+                cookieValue=decodeURIComponent(document.cookie.substring(cookieStart+cookieName.length,cookieEnd))
+            }
+            return cookieValue;
+        },
+        unset:function(name,path,domain,secure){
+            this.set(name,'',new Date(0),domain,path)
+        }
+    }
+     function setCookieDate(day){
+         var date=null;
+         if(typeof day=='number'&&day>0){
+             date=new Date();
+             date.setDate(date.getDate()+day);
+         }else{
+            throw new Error('!!')         
+         }
+         return date;
+     } 

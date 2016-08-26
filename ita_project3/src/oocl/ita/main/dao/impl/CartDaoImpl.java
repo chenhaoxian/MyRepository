@@ -53,6 +53,8 @@ public class CartDaoImpl implements CartDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			DbUtil.free(con, pst, rs);
 		}
 		
 		return count;
@@ -73,6 +75,8 @@ public class CartDaoImpl implements CartDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			DbUtil.free(con, pst, rs);
 		}
 		return count;
 	}
@@ -91,6 +95,8 @@ public class CartDaoImpl implements CartDao {
 			count = pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			DbUtil.free(con, pst, rs);
 		}
 		return count;
 	}
@@ -119,6 +125,8 @@ public class CartDaoImpl implements CartDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			DbUtil.free(con, pst, rs);
 		}
 		
 		return count;

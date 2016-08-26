@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+    <style type="text/css">
+        body{ margin:0; padding:0;}
+        .Header{ height:100px; }
+        .Left{ float:left; width:200px; height:300px; }
+        .Right{ float:right; width:300px; height:300px; }
+        .Center{ margin:0 200px; height:300px; }
+        .Content{ min-width:700px;}
+    </style>
+</head>
+<body ng-app="mainApp" ng-controller="FoodController">
+<div class="Header">test</div>
+
+<div class="Content">
+
+    <div class="Right">
+        <h1> 购物车</h1>
+        <!--
+            <div ng-model="cart.fname"></div>
+            <div ng-model="cart.price"></div>-->
+        <ul>
+            <li ng-repeat="c in cart">
+                <span ng-bind="c.fname"></span><br>
+                <span ng-bind="c.price"></span><br>
+                <span ng-bind="c.num"></span><br>
+            </li>
+
+        </ul>
+
+
+
+    </div>
+
+
+    <div class="Center" >
+        <ul>
+            <li ng-repeat="u in foods">
+                <span ng-bind="u.fname"></span><br>
+                <span ng-bind="u.price"></span><br>
+                <span><button ng-click="buy($index)">buy</button></span>
+
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+
+
+<script>
+
+    angular.module("mainApp",[])
+            .controller("FoodController",function($scope){
+                var foods = [
+                    {fname:"f1",price:1,num:0},
+                    {fname:"f2",price:2,num:0},
+                    {fname:"f3",price:3,num:0}
+                ];
+
+                var cart = [
+
+                ];
+                $scope.foods = foods;
+
+                $scope.cart = cart;
+
+                $scope.buy = function (index) {
+//                    for(c in cart){
+//                        if(c.index == index){
+//                            c.num++
+//                        }else{
+//
+//                        }
+//                    }
+//                    alert(index);
+                    foods[index].num++;
+                    cart.push(foods[index]);
+
+                }
+
+
+            })
+
+</script>
+</body>
+</html>

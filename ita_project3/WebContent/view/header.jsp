@@ -16,19 +16,29 @@
             height: 40;
             width: 100%;
             margin-top: 0;
-            background-color: darkgrey
+            background-color: darkgrey;
+            overflow : hidden;
         }
+        
+        #div1 button{
+         float : right;
+         }
         
         #div2{
            height: 40;
             width: 100%;
             margin-top: 0;
-            background-color: darkgrey
+            background-color: darkgrey;
+            overflow : hidden;
         }
+        #div2 button{
+         float : right;
+         }
         button {
               color: #666;
               background-color: #EEE;
               border-color: #EEE;
+              border-radius : 5px;
               font-weight: 300;
               font-size: 16px;
               font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -37,7 +47,7 @@
               line-height: 40px;
               height: 40px;
               padding: 0 40px;
-              margin: 0;
+              margin: 5px 2px;
               display: inline-block;
               appearance: none;
               cursor: pointer;
@@ -64,10 +74,13 @@
 			</div>
 		</c:when>
 		<c:otherwise> 
+		<div id="div2">
 			你好： ${sessionScope.user.username} 
         	<button id="btn_signout" onclick="signOut()">登出</button>
 			<button id="btn_checkOrder" onclick="window.location.href='showOrderServlet'">查看订单</button>
+			</div>
 		</c:otherwise>
+		
 	</c:choose>
 
 

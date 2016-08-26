@@ -30,6 +30,8 @@ public class SearchDaoImpl implements SearchDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			DbUtil.free(con, pst, rs);
 		}
 		
 		return list;
@@ -52,6 +54,8 @@ public class SearchDaoImpl implements SearchDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			DbUtil.free(con, pst, rs);
 		}
 		
 		return list;

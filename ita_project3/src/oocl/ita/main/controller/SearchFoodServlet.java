@@ -55,8 +55,6 @@ public class SearchFoodServlet extends HttpServlet {
 			PrintWriter writer = response.getWriter();
 			writer.println(foodJson);
 		}
-
-		
 	}
 
 }

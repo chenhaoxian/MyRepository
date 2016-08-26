@@ -139,7 +139,6 @@ color: gainsboro;
 				<tbody id="food_table_data"></tbody>
 			</table>
 		</div>
-
 	</div>
 
 	</section>
@@ -163,11 +162,9 @@ color: gainsboro;
 	<script language="javascript" type="text/javascript">
 
 		function showdiv() {
-			//document.getElementById("bg").style.display = "block";
 			document.getElementById("show").style.display = "block";
 		}
 		function hidediv() {
-			//document.getElementById("bg").style.display = 'none';
 			document.getElementById("show").style.display = 'none';
 		}
 	</script>

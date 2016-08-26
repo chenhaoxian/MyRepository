@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.js"></script>
+</head>
+<body ng-app="mainApp" ng-controller="UserController">
+<div>
+	UserList
+	<table>
+		<tr ng-repeat="u in users">
+			<td>{{u.uname}}</td>
+			<td>{{u.age}}</td>
+			<td><button ng-click="edit($index)">edit</button></td>
+			<td><button ng-click="delete($index)">delete</button></td>
+		</tr>
+	</table>
+
+</div>
+<div>
+	<input type="text" ng-model="cu.uname"><br>
+	<input type="number" ng-model="cu.age"><br>
+	<button ng-click="addUser()">add</button>
+	<button ng-click="confirm()">confirm</button>
+</div>
+
+
+<script>
+	var mainApp=angular.module("mainApp",[]);
+	mainApp.controller("UserController",function ($scope,$http) {
+		var pointer=-1;
+		$scope.cu=null;
+		var req={
+			method:"GET",
+			url:"user"
+		};
+		$http(req)
+				.then(function (res) {
+					$scope.users=res.data;
+				});
+		$scope.edit=function(index){
+			pointer=index;
+			$scope.cu=angular.copy($scope.users[index]);
+		}
+
+		$scope.delete=function (index) {
+			var req={
+				method:"DELETE",
+				url:"user/"+$scope.users[index]._id
+			}
+			$http(req).then(function (res) {
+				if(!res.data.error){
+					$scope.users.splice(index,1);
+				}
+			});
+		};
+
+		$scope.addUser=function () {
+			var req={
+				method:"POST",
+				url:"user",
+				data:$scope.cu,
+				headers:{"Content-type":"application/json"}
+			};
+			$http(req).then(function (res) {
+				$scope.users.push(res.data);
+			});
+		};
+
+		$scope.confirm=function () {
+			var req={
+				method:"PUT",
+				url:"user/"+$scope.cu._id,
+				data:$scope.cu,
+				headers:{"Content-type":"application/json"}
+			};
+			$http(req).then(function (res) {
+				$scope.users[pointer]=angular.copy($scope.cu);
+			});
+
+		};
+
+	});
+
+</script>
+</body>
+</html>
