@@ -1,0 +1,27 @@
+{
+  "name": "public",
+  "authors": [
+    "LIAV2 <avril.li@oocl.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.5.8",
+    "angular-route": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-bootstrap": "^2.1.2",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.6.3",
+    "ng-file-upload": "^12.2.3",
+    "angular-file-upload": "^2.3.4"
+  }
+}

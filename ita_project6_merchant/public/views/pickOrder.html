@@ -1,0 +1,56 @@
+<!--Pick up Orders-->
+<div class="table-outer">
+    <h1 class="center-font">订单处理</h1><br>
+
+        <div class="out-container" ng-if="orders.length == 0">
+            <div class="boo-wrapper">
+                <div class="boo">
+                    <div class="face"></div>
+                </div>
+                <div class="shadow"></div>
+                <h1>Sorry,您还没有订单哟~</h1>
+            </div>
+        </div>
+
+        <table class="table table-striped" ng-repeat="o in orders" ng-if="orders.length != 0">
+
+            <thead class="yellow-bg">
+            <tr >
+                <th>下单时间：{{o.startTime}}</th>
+                <th>客户号码：{{o.client.cTel}}</th>
+                <th colspan="2">配送地址：{{o.client.cLocation}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td colspan="4"><h4><b>订单菜品列表</b></h4></td></tr>
+            <tr class="dish-header">
+                <td>菜品名称</td>
+                <td>单价/&yen;</td>
+                <td>数量</td>
+                <td>价格/&yen;</td>
+            </tr>
+
+            <tr ng-repeat="f in o.foodInfo">
+                <td>{{f.item.fName}}</td>
+                <td>{{f.item.fPrice}}</td>
+                <td>{{f.num}}</td>
+                <td >{{f.item.fPrice * f.num}}</td>
+            </tr>
+
+            <!--<tr>-->
+            <!--<td style="font-weight:bolder;">总计/&yen;：</td>-->
+            <!--<td colspan="2"></td>-->
+            <!--<td class="order-sum">{{total}}</td>-->
+            <!--</tr>-->
+            <tr><td colspan="3"></td>
+
+                <td>
+                    <a type="button" class="btn btn-common" href="" ng-click="updateOrderStatus(o._id,2,$index)">接单</a>
+                    <a type="button" class="btn btn-default" href="" ng-click="updateOrderStatus(o._id,4,$index)">拒接</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+</div>

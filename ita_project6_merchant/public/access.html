@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Access</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/wlc.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <!--<script src="bower_components/angular-file-upload/dist/angular-file-upload.js"></script>-->
+    <script src="bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+    <script src="controllers/detail.js"></script>
+    <script src="controllers/main.client.controller.js"></script>
+    <script src="routes/main.client.route.js"></script>
+    <script src="controllers/application.js"></script>
+
+
+</head>
+
+<body class="gray-body" ng-controller="indexController">
+<div class="container">
+
+    <div ng-show="showLogin">
+        <div class="login-container panel">
+            <!--<div class="panel-body" style="background: rgba(0,0,0,0.13);">-->
+            <div class="panel-body trans-bg">
+                <h1 class="login-title">Login</h1>
+
+                <form name="loginForm" ng-submit="login(loginForm.$valid)" novalidate>
+                    <div class="form-group" ng-class="{ 'has-error' : loginForm.tel.$invalid && !loginForm.tel.$pristine }">
+                        <label>Telephone</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span> </span>
+                            <input type="text" class="form-control" name="tel" placeholder="Telephone..." ng-pattern="/^1[3|4|5|7|8]\d{9}$/" ng-model="tel" required autofocus>
+                        </div>
+                        <span ng-show="loginForm.tel.$invalid && !loginForm.tel.$pristine" class="help-block">Enter a valid phone number.</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : loginForm.pwd.$invalid && !loginForm.pwd.$pristine }">
+                        <label>Password</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span> </span>
+                            <input type="password" class="form-control" name="pwd" placeholder="Password..." ng-model="pwd" required>
+                        </div>
+                        <span ng-show="loginForm.pwd.$invalid && !loginForm.pwd.$pristine" class="help-block">You password is required.</span>
+                    </div>
+
+                    <span ng-show="showLoginAlert" style="color: red;margin-left:20px;">Tel/Password not correct!</span><br>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-gold login-btn" ng-disabled="loginForm.$invalid">Login</button>
+                        <a href="javascript:void(0)" ng-click="linkAccess()" class="btn gray-btn">Register</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-show="!showLogin">
+        <div class="register-container panel">
+            <div class="panel-body">
+                <h1 class="login-title">Register</h1>
+
+                <!--<form  ng-submit="signin()">-->
+                    <form name="registerForm" ng-submit="signin(registerForm.$valid)" novalidate>
+
+                    <div class="form-group" ng-class="{ 'has-error' : registerForm.mPersonName.$invalid && !registerForm.mPersonName.$pristine}">
+                        <label>Owner name</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span> </span>
+                            <input type="text" class="form-control" name="mPersonName" ng-model="mPersonName" placeholder="The name of merchant's owner" required>
+                        </div>
+                        <span ng-show="registerForm.mPersonName.$invalid && !registerForm.mPersonName.$pristine" class="help-block">You user name is required.</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : registerForm.mTel.$invalid && !registerForm.mTel.$pristine || isTelExist}">
+                        <label>Telephone</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span> </span>
+                            <input type="number" class="form-control" name="mTel" ng-model="mTel" value="13926957686" ng-pattern="/^1[3|4|5|7|8]\d{9}$/" placeholder="Your telephone number" required>
+                        </div>
+                        <span ng-show="registerForm.mTel.$invalid && !registerForm.mTel.$pristine || isTelExist" class="help-block">You telephone is required.</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : registerForm.mPassword.$invalid && !registerForm.mPassword.$pristine }" required>
+                        <label>Password</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span> </span>
+                            <input type="password" class="form-control" name="mPassword" ng-model="mPassword" ng-minlength="6" placeholder="Sign in password">
+                        </div>
+                        <span ng-show="registerForm.mPassword.$invalid && !registerForm.mPassword.$pristine" class="help-block">You password min length: 6.</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : !validPwd }">
+                        <label>Password Again</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span> </span>
+                            <input type="password" class="form-control" name="mPassword2" ng-model="mPassword2" ng-blur="checkConfirmPwd()" placeholder="confirm the password" required>
+                        </div>
+                        <span ng-show="!validPwd" class="help-block">Password is different with up one.</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : registerForm.mIdCard.$invalid && !registerForm.mIdCard.$pristine }">
+                        <label>ID Card</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span> </span>
+                            <input type="text" class="form-control" name="mIdCard" ng-model="mIdCard" ng-pattern="/^[1-9]{1}[0-9]{14}$|^[1-9]{1}[0-9]{16}([0-9]|[xX])$/" placeholder="Your id card number" required>
+                        </div>
+                        <span ng-show="registerForm.mIdCard.$invalid && !registerForm.mIdCard.$pristine" class="help-block">You ID card is required.</span>
+                    </div>
+
+                    <!--<div class="form-group">-->
+                        <!--<label>ID Card Pic</label>-->
+                        <!--<input type="file" ngf-select ng-model="file1" name="file1"-->
+                               <!--accept="image/*" ngf-max-size="2MB" required-->
+                               <!--ngf-model-invalid="errorFile"><br>-->
+                        <!--<img ngf-thumbnail="file1" class="thumb" style="width:200px;height:100px;"><br>-->
+                        <!--<button class="btn btn-primary" ng-click="file1 = null" ng-show="file1">Remove</button>-->
+                    <!--</div>-->
+
+                    <div class="form-group" ng-class="{ 'has-error' : registerForm.mLocation.$invalid && !registerForm.mLocation.$pristine }">
+                        <label>Location</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span> </span>
+                            <input type="text" class="form-control" name="mLocation" ng-model="mLocation" value="Location of your merchant" required>
+                        </div>
+                        <span ng-show="registerForm.mLocation.$invalid && !registerForm.mLocation.$pristine" class="help-block">You location is required.</span>
+                    </div>
+
+                    <div class="form-group" ng-class="{ 'has-error' : registerForm.mBrand.$invalid && !registerForm.mBrand.$pristine }">
+                        <label>Brand</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-info-sign"></span> </span>
+                            <input type="text" class="form-control" name="mBrand" ng-model="mBrand" value="Super" value="Brand-name of your merchant" required>
+                        </div>
+                        <span ng-show="registerForm.mBrand.$invalid && !registerForm.mBrand.$pristine" class="help-block">You store brand is required.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Brand Pic</label>
+                        <input type="file" ngf-select ng-model="file2" name="file2"
+                               accept="image/*" ngf-max-size="2MB" required
+                               ngf-model-invalid="errorFile"><br>
+                        <img ngf-thumbnail="file2" class="thumb" style="width:200px;height:100px;"><br>
+                        <button class="btn btn-gold" ng-click="file2 = null" ng-show="file2">Remove</button>
+                    </div>
+                    <div class="form-group">
+                        <span ng-show="showRegisterAlert" style="color: red;margin-left:20px;">Register Faild!</span><br>
+                        <!--<button type="submit" class="btn btn-gold login-btn" >Register</button>-->
+                        <button type="submit" class="btn btn-gold login-btn" ng-disabled="registerForm.$invalid">Register</button>
+                        <a href="javascript:void(0)" ng-click="linkAccess()" class="btn gray-btn">Login</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

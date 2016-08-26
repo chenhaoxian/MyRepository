@@ -1,0 +1,75 @@
+<!--List all of orders-->
+<div class="table-outer">
+    <h1 class="center-font">查看订单</h1><br>
+
+        <!--<div class="out-container">-->
+            <!--<div class="boo-wrapper">-->
+                <!--<div class="boo">-->
+                    <!--<div class="face"></div>-->
+                <!--</div>-->
+                <!--<div class="shadow"></div>-->
+                <!--<h1>Sorry,您还没有订单哟~</h1>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <table class="table table-striped" ng-repeat="myO in myOrders">
+            <thead class="yellow-bg">
+            <tr>
+                <th colspan="2">下单时间：{{myO.startTime}}</th>
+                <th>客户号码：{{myO.client.cTel}}</th>
+
+                <th ng-if="myO.oStatus == 2">订单状态：已接单</th>
+                <th ng-if="myO.oStatus == 3">订单状态：已确认收货</th>
+                <th ng-if="myO.oStatus == 4">订单状态：已拒绝</th>
+
+                <!--<th>订单状态：已确认收货</th>-->
+
+
+                <!--<th>订单状态：已拒绝</th>-->
+
+            </tr>
+            <tr style="border-bottom: 2px solid gold;">
+                <th colspan="2">配送地址：{{myO.client.cLocation}}</th>
+                <th class="toggle" ng-click="showOrhidd($index)" style="background-color:#fffff0;">查看详情 <span style="margin-left:15px;">
+                    		<i class="fa fa-lg fa-angle-down fa-angle-double-up yellow-bg"></i></span>
+                </th>
+                <th></th>
+            </tr>
+
+            </thead>
+
+
+            <tbody class="form" ng-if="ishowDetail && pointer==$index">
+            <tr>
+                <td colspan="4">
+                    <h4><b>订单菜品列表</b></h4>
+                </td>
+            </tr>
+            <tr>
+                <td>菜品名称</td>
+                <td>单价/&yen;</td>
+                <td>数量</td>
+                <td>价格/&yen;</td>
+            </tr>
+            <tr ng-repeat="f in myO.foodInfo">
+                <td>{{f.item.fName}}</td>
+                <td>{{f.item.fPrice}}</td>
+                <td>{{f.num}}</td>
+                <td>{{f.item.fPrice * f.num}}</td>
+            </tr>
+
+
+            <tr>
+                <td style="font-weight:bolder;">总计/&yen;：</td>
+                <td colspan="2"></td>
+                <td class="order-sum">{{total}}</td>
+
+            </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+</div>

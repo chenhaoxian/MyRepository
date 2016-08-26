@@ -1,0 +1,45 @@
+<!--Dish list to edit-->
+<div class="table-outer" ng-init="listFood()">
+    <h1 class="center-font">菜品列表</h1>
+
+            <div class="out-container" ng-show="foods.length <1 ">
+                <div class="boo-wrapper">
+                    <div class="boo">
+                        <div class="face"></div>
+                    </div>
+                    <div class="shadow"></div>
+                    <h1>Sorry,您还没有上传菜品哟~</h1>
+                </div>
+            </div>
+
+            <div ng-show="foods.length > 0">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th style=" text-align : center;padding-left:8px !important;">菜品图片</th>
+                        <th style=" text-align : center;padding-left:8px !important;">菜品名称</th>
+                        <th style=" text-align : center;padding-left:8px !important;">价格/&yen;</th>
+                        <th style=" text-align : center;padding-left:8px !important;">功能</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="f in foods" class="foods-row">
+                            <td><img src="{{imgPath}}{{f.fViewPath }}"></td>
+                            <td>{{f.fName }}</td>
+                            <td>{{f.fPrice }}</td>
+                            <td>
+                                    <a href="javascript:void(0)" type="button"
+                                       class="btn btn-danger" ng-click="deleteFood(f._id,$index)">下架</a>
+
+                                    <a href="javascript:void(0)" type="button" class="btn btn-common" ng-show="f.fStatus==1" ng-click="updateFoodStatus(f._id,$index)"><i class="glyphicon glyphicon-star" ></i>推荐</a>
+                                    <button type="button" ng-show="f.fStatus!=1"
+                                            id="fIdRec-none"
+                                            class="btn btn-common" disabled>
+                                        <i class="glyphicon glyphicon-star"></i>已推荐
+                                    </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+</div>

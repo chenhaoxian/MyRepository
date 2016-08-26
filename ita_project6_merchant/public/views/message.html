@@ -1,0 +1,31 @@
+<div class="out-container" ng-controller="mainController">
+    <div class="boo-wrapper">
+        <div class="boo">
+            <div class="face"></div>
+        </div>
+        <div class="shadow"></div>
+
+
+        <div ng-show="merchantInfo.mStatus == 1">
+            <h1>Welcome to Delicious merchant system !</h1>
+            <p>Sorry,审核中...</p>
+        </div>
+
+        <div ng-show="merchantInfo.mStatus == 2">
+            <h1>Welcome to Delicious merchant system !</h1>
+            <p>欢迎您使用Delicious商家系统。</p>
+        </div>
+
+        <div ng-show="merchantInfo.mStatus == 3">
+            <h1>Welcome to Delicious merchant system !</h1>
+            <b>您的审核未通过，请到用户中心->信息管理进行修改并提交，我们将进行再次审核！</b>
+        </div>
+
+        <div ng-show="merchantInfo.mStatus == 4">
+            <h1>Whoops!</h1>
+            <p>You're in the black list !</p>
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<!-- Change password -->
+<div class="panel-body">
+    <h1 class="login-title">修改密码</h1>
+
+    <form name="pwdForm" ng-submit="changePwd(pwdForm.$valid)" novalidate>
+        <div class="form-group" ng-class="{ 'has-error' : !isCorrect }">
+            <label>Old Password</label>
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                <input type="password" class="form-control" ng-model="oldPwd" name="oldPwd" ng-blur="checkOldPwd()" required>
+            </div>
+            <span ng-show="!isCorrect" class="help-block">Old password not correct!</span>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : pwdForm.newPwd.$invalid && !pwdForm.newPwd.$pristine }">
+            <label>New Password</label>
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span> </span>
+                <input type="password" class="form-control" ng-model="newPwd" name="newPwd" ng-minlength="6" required>
+            </div>
+            <span ng-show="pwdForm.newPwd.$invalid && !pwdForm.newPwd.$pristine" class="help-block">You password min length: 6.</span>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : !validComPwd }">
+            <label>New Password Confirm</label>
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                <input type="password" class="form-control" ng-model="pwdCon" name="pwdCon" ng-change="checkNewPwd()">
+            </div>
+            <span ng-show="!validComPwd" class="help-block">Password is different with up one.</span>
+        </div>
+
+        <div class="alert alert-success" role="alert" style="margin: 10px 20px;" ng-show="showChangePwdSuccess">Change password success! Link to information page after 3s.</div>
+
+        <div class="form-group">
+            <!--<span ng-show="showChangePwdSuccess" class="help-block">Change password success! Link to information page after 3s.</span>-->
+            <button type="submit" class="btn btn-gold login-btn" ng-disabled="pwdForm.$invalid">Commit</button>
+        </div>
+    </form>
+
+</div>

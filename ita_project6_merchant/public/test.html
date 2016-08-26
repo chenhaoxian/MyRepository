@@ -1,0 +1,45 @@
+<div class="container">
+
+<div class="jumbotron text-center">
+<h1>Angular test list<span class="label label-info">{{todos.length}}</span></h1>
+</div>
+
+<button type="button" class="btn btn-primary">test</button>
+
+
+<div id="todo-list" class="row">
+<div class="col-sm-4 col-sm-offset-4" ng-repeat="t in todos" ng-model="todos">
+<span>{{t.uname}}</span>
+<b>{{t.age}}</b>
+<button class="btn btn-danger" ng-click="delFun(t._id,$index)">Delete</button>
+<button class="btn btn-info" ng-click="updateFun(t.uname,t.age,t._id)">Edit</button>
+</div>
+</div>
+
+
+<p>在输入框中尝试输入：</p>
+<p>姓名：<input type="text" ng-model="firstName"></p>
+<p>你输入的为： {{ firstName }}</p>
+
+<div id="todo-form" class="row">
+<div class="col-md-8 text-center">
+<form>
+<div class="form-group">
+<input type="text" class="form-control input-lg text-center" placeholder="user name" ng-model="formData.uname">
+</div>
+<div class="form-group">
+<input type="text" class="form-control input-lg text-center" placeholder="user age" ng-model="formData.age">
+</div>
+<button class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+<button class="btn btn-primary btn-lg" ng-click="updateTodo(itemId)">Update</button>
+</form>
+</div>
+</div>
+
+
+<a href="#/">Index page</a>
+<a href="#/main">Main page</a>
+
+
+
+</div>

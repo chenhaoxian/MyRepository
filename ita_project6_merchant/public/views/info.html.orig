@@ -1,0 +1,87 @@
+<!-- Merchant Info -->
+<div class="panel-body m-info-div">
+    <h1 class="context-title">商户信息</h1>
+
+<<<<<<< HEAD
+    <div class="alert alert-success" role="alert" style="margin: 10px 20px;" ng-show="showUpdateSuccess">修改成功！</div>
+=======
+    <div class="alert alert-success" role="alert" style="margin: 10px 20px;" ng-if="showUpdateSuccess">修改成功！</div>
+>>>>>>> 4d33654afc7f6654e9c09f6902281f675b93630a
+
+    <div class="form-group">
+        <label class="control-label" for="usr">Owner name</label>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span> </span>
+            <input type="text" class="form-control" id="usr" name="usr" placeholder="" ng-model="info.mPersonName" disabled >
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="tel">Telephone</label>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span> </span>
+            <input type="text" class="form-control" id="tel" name="tel" placeholder="" ng-model="info.mTel" disabled>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <div class="input-group">
+            <a type="button" href="#/home/pwd" class="btn btn-default">Change Password</a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>ID Card</label>
+    </div>
+    <div class="form-group">
+        <img src="${myPicServer }${info.mCardPath }">
+    </div>
+    <div class="form-group">
+        <label>Account status：</label>
+        <div class="input-group">
+
+                <!--<div ng-if="merchantInfo.status == 1"></div>-->
+                <span style="color:gold"><i class="fa fa-meh-o" aria-hidden="true"></i>审核中</span>
+
+                <!--<span style="color:green"><i class="fa fa-smile-o" aria-hidden="true"></i>已通过</span>-->
+
+                <!--<span style="color:red"><i class="fa fa-frown-o" aria-hidden="true"></i>未通过</span>-->
+
+                <!--<span style="color:red"><i class="fa fa-frown-o" aria-hidden="true"></i>&nbsp;黑名单</span>-->
+
+        </div>
+    </div>
+    <form class="login-form">
+        <div class="form-group">
+            <label for="location">Location</label>
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span> </span>
+                <input type="text" class="form-control" id="location" name="location" placeholder="" ng-model="info.mLocation">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="brand">Brand</label>
+            <div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-info-sign"></span> </span>
+                <input type="text" class="form-control" id="brand" name="brand" placeholder="" ng-model="info.mBrand">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="logo">Brand Pic</label>
+            <div class="input-group">
+                <img src="${myPicServer }${merchant.mLogoPath }" >
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="file" class="" id="logo" name="logo">
+            <p class="help-block">The Brand picture could help customer recognize your merchant easily</p>
+        </div>
+        <span id="edit-alert" class="red-span" style="margin-left:20px;"></span><br>
+        <br>
+
+        <div class="form-group">
+            <button type="button" class="btn btn-common login-btn" ng-click="updateInfo()">Save</button>
+        </div>
+
+    </form>
+</div>

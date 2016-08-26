@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Delicious</title>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/wlc.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+<<<<<<< HEAD
+
+=======
+    <script src="controllers/detail.js"></script>
+>>>>>>> e1e5295e45e58ab361efaa0843bd7e5ccef0feaa
+    <script src="controllers/merchant.client.controller.js"></script>
+    <script src="controllers/food.client.controller.js"></script>
+    <script src="controllers/order.client.controller.js"></script>
+    <script src="controllers/main.client.controller.js"></script>
+    <script src="routes/main.client.route.js"></script>
+<<<<<<< HEAD
+
+    <!--<script src="controllers/user.client.controller.js"></script>-->
+=======
+    <script src="controllers/application.js"></script>
+    
+>>>>>>> e1e5295e45e58ab361efaa0843bd7e5ccef0feaa
+</head>
+
+<body class="home-body" ng-controller="mainController">
+
+<!--Header-->
+<div class="header-div" id="top">
+    <div class="mid-header clearfix">
+        <a href="/#/home" class="logo-font">Delicious</a>
+        <span class="header-right-box">
+
+            <div ng-if="merchantInfo == null">
+                <a href="javascript:void(0)" class="header-link-box" ng-click="linkToLogin()"><button type="button">Login</button></a>
+                <span style="color: gold;"> | </span>
+                <a href="javascript:void(0)" class="header-link-box" ng-click="linkToRegister()"><button type="button">Register</button></a>
+            </div>
+
+            <div ng-if="merchantInfo != null">
+                <span>
+                    <span style="color:#ffffff;"><i class="fa fa-meh-o" aria-hidden="true"></i>审核中</span>
+                </span>
+                <span class="wlc-font">Welcome, {{merchantInfo.mPersonName}}</span>
+                <a href="${pageContext.request.contextPath }/logout" class="header-link-box"><button type="button">注销</button></a>
+            </div>
+
+        </span>
+    </div>
+</div>
+
+<div class="mid-box">
+    <div class="row" style="margin: 0;">
+        <div class="left-box col-md-2">
+            <a href="javascript:void(0)" class="btn a-common" type="button" ng-model="isUc" ng-click="changeUc()"><i class="glyphicon glyphicon-user"></i>用户中心</a>
+            <div ng-hide="!isUc" class="amt white-bg">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#/home/info" class="yellow-a"><i></i>信息管理</a></li>
+                    <li><a href="#/home/grade" class="yellow-a"><i class="icon-list-alt"></i>查看评分</a></li>
+                </ul>
+            </div>
+
+            <a href="javascript:void(0)" class="btn a-common" type="button" ng-click="changeFc()"><i class="glyphicon glyphicon-list"></i>菜品管理</a>
+            <div ng-hide="!isFc" class="amt white-bg">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#/food/list" class="yellow-a"><i></i>查看菜品</a></li>
+                    <li><a href="#/food/new" class="yellow-a"><i></i>添加菜品</a></li>
+                </ul>
+            </div>
+
+            <a href="javascript:void(0)" class="btn a-common" type="button" ng-click="changeOc()"><i class="glyphicon glyphicon-file"></i>订单管理</a>
+            <div ng-hide="!isOc" class="amt2 white-bg">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="#/order/pick" class="yellow-a"><i></i>订单处理</a></li>
+                    <li><a href="#/order" class="yellow-a"><i></i> 查看订单</a></li>
+                    <li><a href="#/order/complain" class="yellow-a"><i></i>投诉订单</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="col-md-9 right-box">
+
+            <div ng-view></div>
+
+        </div>
+    </div>
+
+
+</div>
+
+<a href="#top">
+    <div class="top-box">
+        <span class="glyphicon glyphicon-chevron-up back-icon"></span>
+    </div>
+</a>
+
+
+</body>
+</html>

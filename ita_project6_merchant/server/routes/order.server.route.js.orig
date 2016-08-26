@@ -1,0 +1,26 @@
+const c=require("../controllers/order.server.controller");
+function fn(app){
+
+	app.route("/order")
+		.get(c.findAllOrder);
+
+	app.route("/order/new")
+	.get(c.findNewOrder);
+
+<<<<<<< HEAD
+	app.route("/order/status/:oId")
+=======
+	app.route("/order/complaint")
+	.get(c.findComplaintOrder);
+
+	app.route("/order/:id")
+	.get(c.findResult)
+>>>>>>> 4d33654afc7f6654e9c09f6902281f675b93630a
+	.put(c.UpdateOrderStatus);
+
+
+
+	
+
+}
+module.exports=fn;

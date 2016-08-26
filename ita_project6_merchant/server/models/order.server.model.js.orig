@@ -1,0 +1,39 @@
+<<<<<<< HEAD
+const mongoose=require("mongoose")
+
+var OrderSchema=new mongoose.Schema({
+    cId:String,
+    mId:String,
+    foodInfo:String,
+    oStatus:Number,
+    startTime:Date,
+    confirmTime:Date,
+    finishTime:Date,
+    oStark:Number,
+    complaint:String
+})
+=======
+/**
+ * Created by CHENHY on 8/24/2016.
+ */
+//建立数据模型，挂到mongoose的model上
+
+const mongoose = require("mongoose");
+
+var OrderSchema=new mongoose.Schema({
+    cId:String,
+    mId:String,
+    foodInfo:[{}],
+    oStatus:Number,
+    startTime:Date,
+    confirmTime:Date,
+    finishTime:Date,
+    oStark:Number,
+    complaint:String,
+    merchant:{},
+    client:{}
+
+});
+
+>>>>>>> 9cb47d3accaa58bbf69bdef82a0942ff41a30d1f
+mongoose.model("order",OrderSchema);

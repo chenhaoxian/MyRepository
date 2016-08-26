@@ -1,0 +1,87 @@
+<!--List all of complaint orders-->
+<div class="table-outer">
+    <h1 class="center-font">所有投诉订单</h1><br>
+    <!--<c:if test="${orders.size() == 0}">-->
+        <!--<div class="out-container">-->
+            <!--<div class="boo-wrapper">-->
+                <!--<div class="boo">-->
+                    <!--<div class="face"></div>-->
+                <!--</div>-->
+                <!--<div class="shadow"></div>-->
+                <!--<h1>恭喜，您还没有投诉订单~</h1>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</c:if>-->
+
+        <table class="table table-striped" ng-repeat="c in cOrders">
+            <thead class="yellow-bg">
+            <tr>
+                <th colspan="2">下单时间：{{c.startTime}}</th>
+                <th>客户号码：{{c.client.cTel}}</th>
+                <th>订单状态：投诉订单</th>
+            </tr>
+            <tr>
+                <th colspan="2">配送地址：{{c.client.cLocation}}</th>
+                <th class="toggle" ng-click="showOrhidd($index)" style="background-color:#fffff0;">查看详情 <span style="margin-left:15px;">
+                    		<i class="fa fa-lg fa-angle-down fa-angle-double-up yellow-bg"></i></span>
+                </th>
+                <th><button type="button" class="btn btn-common" data-toggle="modal" data-target="#myModal"
+                            ng-click="complain(c._id,$index,c.complaint)">投诉内容及结果</button></th>
+            </tr>
+
+            </thead>
+
+            <tbody class="form" ng-if="ishowDetail && pointer==$index">
+            <tr>
+                <td colspan="4">
+                    <h4><b>订单菜品列表</b></h4>
+                </td>
+            </tr>
+            <tr>
+                <td>菜品名称</td>
+                <td>单价/&yen;</td>
+                <td>数量</td>
+                <td>价格/&yen;</td>
+            </tr>
+            <tr ng-repeat="f in c.foodInfo">
+                <td>{{f.item.fName}}</td>
+                <td>{{f.item.fPrice}}</td>
+                <td>{{f.num}}</td>
+                <td>{{f.item.fPrice * f.num}}</td>
+            </tr>
+
+
+            <tr>
+                <td style="font-weight:bolder;">总计/&yen;：</td>
+                <td colspan="2"></td>
+                <td class="order-sum">{{total}}</td>
+
+            </tr>
+            </tbody>
+        </table>
+
+</div>
+
+<!-- Modal -->
+<div ng-show="ishowComplaint" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="margin-top: 150px;">
+        <div class="modal-content">
+            <div class="modal-header yellow-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeModal()">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">投诉信息及处理结果</h4>
+            </div>
+            <div class="modal-body" >
+                <h4>处理结果：
+                    <span ng-if="handleResult==1">未处理</span>
+                    <span ng-if="handleResult==2">投诉被驳回</span>
+                    <span ng-if="handleResult==3">扣除押金</span>
+                    <span ng-if="handleResult==4">商家被拉黑</span>
+                </h4>
+                <p id="comp-info">{{complaintMsg}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>

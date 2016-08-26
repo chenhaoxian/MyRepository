@@ -1,0 +1,46 @@
+<!--Add Dishes-->
+<div class="panel-body">
+    <h1 class="center-font">添加菜品</h1>
+
+    <form name="foodForm" ng-submit="addFood(foodForm.$valid)" novalidate>
+        <div class="form-group" >
+            <label>Food Name</label>
+            <div class="input-group">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign"></span> </span>
+                <input type="text" class="form-control" ng-model="fName" name="fName" placeholder="Food Name..." required>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label>Price</label>
+            <div class="input-group">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-yen"></span> </span>
+                <input type="number"class="form-control" ng-model="fPrice" name="fPrice" placeholder="Price..." required>
+            </div>
+
+        </div>
+        <div class="form-group" >
+            <div class="input-group" id="fPicPreview">
+                <!-- 上传成功显示预览图 -->
+            </div>
+        </div>
+        <div class="form-group" id="fPicQueue">
+            <label>Food Image</label>
+            <div class="input-group">
+                <input type="file" ngf-select ng-model="file" name="file2" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile"><br>
+                <img ngf-thumbnail="file" class="thumb" style="width:200px;height:100px;"><br>
+                <button class="btn btn-gold" ng-click="file = null" ng-show="file">Remove</button>
+                <!--<input type="file" class="" id="fpic" name="fViewPath"> <a-->
+                    <!--href="javascript:$('#fpic').uploadifive('upload')">点击上传</a>-->
+            </div>
+            <span class="red-span" id="fpic-alert"></span>
+        </div>
+
+        <div class="alert alert-success" role="alert" style="margin: 10px 20px;" ng-show="addFoodSuccess">上传菜品成功！3秒后跳转到菜品页面...</div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-gold login-btn" ng-disabled="foodForm.$invalid">Submit</button>
+        </div>
+
+    </form>
+</div>
